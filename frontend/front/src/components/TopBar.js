@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -16,31 +16,29 @@ import Slide from '@material-ui/core/Slide';
 
 
 const useStyles = makeStyles({
-    avatar: {
-        margin: 10,
-    },
     bigAvatar: {
         margin: 10,
         width: 60,
         height: 60,
+        float: "left",
     },
     navigation: {
         background: "#0088cc",
-       // position: "fixed",
+        // position: "fixed",
     },
     button: {
-        fontWeight:"bold",
-      //  margin: 10,
+        fontWeight: "bold",
+        //  margin: 10,
         float: "right",
     },
 });
 
 function HideOnScroll(props) {
-    const { children, window } = props;
+    const {children, window} = props;
     // Note that you normally won't need to set the window ref as useScrollTrigger
     // will default to window.
     // This is only being set here because the demo is in an iframe.
-    const trigger = useScrollTrigger({ target: window ? window() : undefined });
+    const trigger = useScrollTrigger({target: window ? window() : undefined});
 
     return (
         <Slide appear={false} direction="down" in={!trigger}>
@@ -60,16 +58,19 @@ export default function TopBar() {
 
     const bar = (
         <React.Fragment>
-            <CssBaseline />
+            <CssBaseline/>
             <HideOnScroll>
                 <AppBar className={classes.navigation}>
                     <Toolbar>
-                            {login &&
-                            <Grid container justify="space-between" alignItems="center">
+                        {login &&
+                        <Grid container="column" justify="space-between">
+                            <Grid item xs>
                                 <Avatar alt="Remy Sharp" src={login.photo_url} className={classes.bigAvatar}/>
-                                <Typography variant="h5">
-                                    {login.username}
-                                </Typography>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>{login.username}</Typography>
+                            </Grid>
+                            <Grid item xs>
                                 <Button variant="contained" color="primary" className={classes.button}
                                         onClick={() => {
                                             clear()
@@ -79,11 +80,12 @@ export default function TopBar() {
                                     Logout
                                 </Button>
                             </Grid>
-                            }
+                        </Grid>
+                        }
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
-            <Toolbar />
+            <Toolbar/>
         </React.Fragment>
 
     )
