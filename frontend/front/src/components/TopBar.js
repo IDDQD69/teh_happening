@@ -9,6 +9,8 @@ import {storeLogin, getLogin, clear} from 'storage'
 import {validate} from 'api'
 import isEmpty from "lodash/isEmpty";
 import { Navbar, Nav, NavItem, NavDropdown, Glyphicon } from "react-bootstrap";
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles({
     avatar: {
@@ -20,13 +22,10 @@ const useStyles = makeStyles({
         height: 60,
     },
     navigation: {
-        top: 0,
-        left: 0,
-        margin: 0,
-        padding: 0,
         width: "100%",
         height: 80,
         backgroundColor: "#0088cc",
+       // position: "fixed",
     },
 });
 
@@ -44,6 +43,9 @@ export default function TopBar() {
                 {login &&
                 <Grid container justify="start" alignItems="center">
                     <Avatar alt="Remy Sharp" src={login.photo_url} className={classes.bigAvatar}/>
+                    <Typography variant="h5" gutterBottom>
+                        {login.username}
+                    </Typography>
                     <Button variant="contained" color="primary" className={classes.button} style={{fontWeight:"bold", marginLeft: "auto"}}
                             onClick={() => {
                                 clear()
