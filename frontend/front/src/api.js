@@ -13,3 +13,12 @@ export const getEvents = (callback) => {
                 callback(response)
             })
 }
+
+export const validate = (login, callback) => {
+    getAxios()
+        .post('/telegram/validate/' ,login)
+        .then(
+            response => {
+                callback(response)
+            })
+}

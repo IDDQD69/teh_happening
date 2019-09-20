@@ -1,16 +1,32 @@
 import React, {useEffect, useState} from 'react'
 
-import {getEvents } from 'api'
+import TelegramLoginButton from 'react-telegram-login';
+
+import isEmpty from 'lodash/isEmpty'
+
+import {getEvents, validate} from 'api'
+import {storeLogin, getLogin, clear} from 'storage'
 
 function Main(props) {
 
     const [events, setEvents] = useState([])
+    const [login, setLogin] = useState({})
 
     useEffect(() => {
         getEvents(response => {
             setEvents(response.data)
         })
+        setLogin(getLogin())
     }, [])
+
+
+    useEffect(() => {
+        if (!isEmpty(login)) {
+            validate(login, response => {
+                console.log('res', response)
+            })
+        }
+    }, [login])
 
     const eventItem = event => {
         return <div key={event.id}>{event.name}</div>
@@ -22,7 +38,37 @@ function Main(props) {
         </div>
     )
 
-    return(<div>{eventsList}</div>)
+    const handleTelegramResponse = response => {
+        console.log(response);
+        setLogin(response)
+        storeLogin(response)
+    };
+
+    const loginButton = (
+        <TelegramLoginButton
+            dataOnauth={handleTelegramResponse}
+            botName='TehHappeningBot'/>
+    )
+
+    const logout = () => {
+        clear()
+        setLogin({})
+    }
+
+    const logoutButton = (
+        <div>
+            <img src={login.photo_url} alt="me"/>
+            <span>{login.username}</span>
+            <div onClick={() => {logout()}}> logout </div>
+        </div>
+    )
+
+    return (
+        <div>
+            {isEmpty(login) && loginButton}
+            {!isEmpty(login) && logoutButton}
+        </div>
+    )
 }
 
 export default Main
