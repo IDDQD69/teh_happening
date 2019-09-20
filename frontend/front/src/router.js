@@ -7,6 +7,8 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 import {clear, getLogin} from 'storage'
 
+import isEmpty from 'lodash/isEmpty'
+
 
 import Main from 'containers/Main'
 import Events from 'containers/Events'
@@ -28,6 +30,14 @@ function RedirectComponent(props) {
     return <Redirect to="/"/>
 }
 
+
+function EventsRedirectComponent(props) {
+    if (props.location.pathname === '/') {
+        return <Redirect to="/events/" />
+    }
+    return <div />
+}
+
 function AppRouter(props) {
     const classes = useStyles()
     const [login, setLogin] = useState({})
@@ -47,6 +57,7 @@ function AppRouter(props) {
         <Router>
             <div>
                 {forwardToLogin && <Route component={RedirectComponent}/>}
+                {!isEmpty(login) && <Route component={EventsRedirectComponent}/>}
                 <TopBar login={login} handleLogout={handleLogout}/>
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
