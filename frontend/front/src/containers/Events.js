@@ -1,14 +1,18 @@
-import React,{useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect, useState} from 'react';
+
+import {makeStyles} from '@material-ui/core/styles';
+
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {getEvents } from 'api'
-import {deleteEvent } from 'api'
 
+import {getEvents, deleteEvent} from 'api'
+import CustomLink from "../components/CustomLink";
+import Link from "@material-ui/core/Link";
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function ComplexGrid() {
+function Events() {
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
@@ -46,13 +50,10 @@ export default function ComplexGrid() {
     }, [])
 
 
-
     const eventItem = event => {
 
         function handleClick(e) {
-            console.log(e.id)
-            var index = events.indexOf(e)
-            console.log(index)
+            const index = events.indexOf(e)
             //delete events[index]
             deleteEvent(event, response => {
                 getEvents(response => {
@@ -63,20 +64,23 @@ export default function ComplexGrid() {
         }
 
         return (
-
             <Paper key={event.id} className={classes.paper}>
                 <Grid container spacing={2}>
                     <Grid item>
-                        <ButtonBase className={classes.image}>
-                            <img className={classes.img} alt="complex" src="https://m.media-amazon.com/images/I/71SvlEdYL6L._SS500_.jpg" />
-                        </ButtonBase>
+                        <CustomLink to={'/events/' + event.id}>
+                            <ButtonBase className={classes.image}>
+                                <img className={classes.img} alt="complex" src="https://picsum.photos/200"/>
+                            </ButtonBase>
+                        </CustomLink>
                     </Grid>
                     <Grid item xs={12} sm container>
                         <Grid item xs container direction="column" spacing={2}>
                             <Grid item xs>
-                                <Typography gutterBottom variant="subtitle1">
-                                    {event.name}
-                                </Typography>
+                                <CustomLink to={'/events/' + event.id}>
+                                    <Typography gutterBottom variant="subtitle1">
+                                        {event.name}
+                                    </Typography>
+                                </CustomLink>
                                 <Typography variant="body2" gutterBottom>
                                     {event.created_by}
                                 </Typography>
@@ -85,8 +89,9 @@ export default function ComplexGrid() {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography variant="body2" style={{ cursor: 'pointer' }} >
-                                    <IconButton className={classes.button} aria-label="delete" onClick={(e) => handleClick(event)}>
+                                <Typography variant="body2" style={{cursor: 'pointer'}}>
+                                    <IconButton className={classes.button} aria-label="delete"
+                                                onClick={(e) => handleClick(event)}>
                                         <DeleteIcon/>
                                     </IconButton>
                                 </Typography>
@@ -97,6 +102,7 @@ export default function ComplexGrid() {
                         </Grid>
                     </Grid>
                 </Grid>
+
             </Paper>
 
         )
@@ -105,7 +111,14 @@ export default function ComplexGrid() {
 
     return (
         <div className={classes.root}>
+            <Paper className={classes.paper}>
+                <Button>
+                    <CustomLink to={'/event/new/'}>new event</CustomLink>
+                </Button>
+            </Paper>
             {events.map(event => eventItem(event))}
         </div>
     );
 }
+
+export default Events

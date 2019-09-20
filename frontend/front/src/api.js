@@ -14,9 +14,46 @@ export const getEvents = (callback) => {
             })
 }
 
+export const createEvent = (data, callback, error) => {
+    getAxios()
+        .post('/event/', data)
+        .then(
+            response => {
+                callback(response)
+            })
+        .catch(err => {
+            if (error) {
+                error(err)
+            }
+        })
+}
+
+export const getEvent = (eventId, callback, error) => {
+    getAxios()
+        .get('/event/' + eventId + '/')
+        .then(
+            response => {
+                callback(response)
+            })
+        .catch(err => {
+            if (error) {
+                error(err)
+            }
+        })
+}
+
+export const getEventParticipants = (eventId, callback) => {
+    getAxios()
+        .get('/event/' + eventId + '/participants/')
+        .then(
+            response => {
+                callback(response)
+            })
+}
+
 export const validate = (login, callback) => {
     getAxios()
-        .post('/telegram/validate/' ,login)
+        .post('/telegram/validate/', login)
         .then(
             response => {
                 callback(response)
@@ -24,12 +61,11 @@ export const validate = (login, callback) => {
 }
 
 export const deleteEvent = (event, callback) => {
-    console.log("POISTA")
     getAxios()
-    .delete(`/event/${event.id}/`)
-    .then(
-        response => {
-            callback(response)
-        })
+        .delete(`/event/${event.id}/`)
+        .then(
+            response => {
+                callback(response)
+            })
 
 }
