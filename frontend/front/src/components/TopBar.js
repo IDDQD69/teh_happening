@@ -65,10 +65,10 @@ export default function TopBar() {
                         {login &&
                         <Grid container="column" justify="space-between">
                             <Grid item xs>
-                                <Avatar alt="Remy Sharp" src={login.photo_url} className={classes.bigAvatar}/>
+                                <Avatar alt="user icon" src={login.photo_url} className={classes.bigAvatar}/>
                             </Grid>
                             <Grid item xs>
-                                <Typography variant="h5" gutterBottom>{login.username}</Typography>
+                                <Typography variant="h5">{login.username}</Typography>
                             </Grid>
                             <Grid item xs>
                                 <Button variant="contained" color="primary" className={classes.button}

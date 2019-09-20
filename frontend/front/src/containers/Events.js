@@ -65,6 +65,7 @@ function Events() {
 
         return (
             <Paper key={event.id} className={classes.paper}>
+                {console.log(event)}
                 <Grid container spacing={2}>
                     <Grid item>
                         <CustomLink to={'/events/' + event.id}>
@@ -98,7 +99,7 @@ function Events() {
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <Typography variant="subtitle1">Date</Typography>
+                            <Typography variant="subtitle1">{event.date}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
