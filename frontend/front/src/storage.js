@@ -4,9 +4,6 @@ export function storeLogin(login) {
 
 export function getLogin() {
     const login = localStorage.getItem('login')
-
-    console.log('login info from storate', login)
-
     if (login && login !== '') {
         return JSON.parse(login)
     }

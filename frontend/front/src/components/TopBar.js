@@ -1,11 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {storeLogin, getLogin, clear} from 'storage'
-import {validate} from 'api'
 import isEmpty from "lodash/isEmpty";
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,20 +13,23 @@ import Slide from '@material-ui/core/Slide';
 
 
 const useStyles = makeStyles({
+    root: {
+        flexGrow: 1,
+    },
+    username: {
+        flexGrow: 1,
+        marginLeft: 10
+    },
     bigAvatar: {
+        width: 50,
+        height: 50,
         margin: 10,
-        width: 60,
-        height: 60,
-        float: "left",
     },
     navigation: {
         background: "#0088cc",
-        // position: "fixed",
     },
     button: {
         fontWeight: "bold",
-        //  margin: 10,
-        float: "right",
     },
 });
 
@@ -47,14 +47,9 @@ function HideOnScroll(props) {
     );
 }
 
-
-export default function TopBar() {
+function TopBar(props) {
+    const { login, handleLogout } = props
     const classes = useStyles();
-    const [login, setLogin] = useState({})
-
-    useEffect(() => {
-        setLogin(getLogin())
-    }, [])
 
     const bar = (
         <React.Fragment>
@@ -62,39 +57,32 @@ export default function TopBar() {
             <HideOnScroll>
                 <AppBar className={classes.navigation}>
                     <Toolbar>
-                        {login &&
-                        <Grid container="column" justify="space-between">
-                            <Grid item xs>
-                                <Avatar alt="user icon" src={login.photo_url} className={classes.bigAvatar}/>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5">{login.username}</Typography>
-                            </Grid>
-                            <Grid item xs>
-                                <Button variant="contained" color="primary" className={classes.button}
-                                        onClick={() => {
-                                            clear()
-                                            setLogin({})
-                                            console.log("Logout")
-                                        }}>
-                                    Logout
-                                </Button>
-                            </Grid>
-                        </Grid>
-                        }
+                        <Avatar edge="start"
+                                alt="Remy Sharp"
+                                src={login.photo_url}
+                                className={classes.bigAvatar}
+                        />
+                        <Typography className={classes.username}
+                                    variant="h5"
+                                    edge="end">{login.username}</Typography>
+                        <Button
+                            edge="end"
+                            variant="contained" color="primary" className={classes.button}
+                            onClick={handleLogout}>
+                            Logout
+                        </Button>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
-            <Toolbar/>
         </React.Fragment>
 
     )
 
-    return (<div>
-
-
-        {!isEmpty(login) && bar}
-
-
-    </div>)
+    return (
+        <div className={classes.root}>
+            {!isEmpty(login) && bar}
+        </div>
+    )
 }
+
+export default TopBar
