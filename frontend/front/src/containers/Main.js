@@ -7,6 +7,9 @@ import isEmpty from 'lodash/isEmpty'
 import {getEvents, validate} from 'api'
 import {storeLogin, getLogin, clear} from 'storage'
 
+// ask this from aj :)
+import data from 'data.json'
+
 function Main(props) {
 
     const [events, setEvents] = useState([])
@@ -16,7 +19,7 @@ function Main(props) {
         getEvents(response => {
             setEvents(response.data)
         })
-        setLogin(getLogin())
+        setLogin(data)
     }, [])
 
 
@@ -39,7 +42,6 @@ function Main(props) {
     )
 
     const handleTelegramResponse = response => {
-        console.log(response);
         setLogin(response)
         storeLogin(response)
     };
