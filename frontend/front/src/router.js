@@ -39,13 +39,14 @@ function EventsRedirectComponent(props) {
 }
 
 function AppRouter(props) {
+    const {} = props
     const classes = useStyles()
     const [login, setLogin] = useState({})
     const [forwardToLogin, setForwardToLogin] = useState(false)
 
     useEffect(() => {
         setLogin(getLogin())
-    })
+    }, [])
 
     const handleLogout = () => {
         clear()
