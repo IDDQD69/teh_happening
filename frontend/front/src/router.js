@@ -8,12 +8,15 @@ import Main from 'containers/Main'
 import Events from 'containers/Events'
 import Event from 'containers/Event'
 import CreateEvent from 'containers/CreateEvent'
+import TopBar from "components/TopBar";
 
 
 function AppRouter(props) {
 
     return(
+
         <Router>
+            <TopBar/>
             <div>
                 <Route path="/" exact component={Main} />
                 <Route path="/events" exact component={Events} />
