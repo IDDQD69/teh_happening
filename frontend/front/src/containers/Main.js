@@ -19,7 +19,7 @@ function Main(props) {
         getEvents(response => {
             setEvents(response.data)
         })
-        setLogin(data)
+        setLogin(data[0])
     }, [])
 
 
