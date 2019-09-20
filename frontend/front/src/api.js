@@ -22,3 +22,14 @@ export const validate = (login, callback) => {
                 callback(response)
             })
 }
+
+export const deleteEvent = (event, callback) => {
+    console.log("POISTA")
+    getAxios()
+    .delete(`/event/${event.id}/`)
+    .then(
+        response => {
+            callback(response)
+        })
+
+}
