@@ -134,7 +134,7 @@ function Events() {
     }
 
     function sortByDate() {
-        const sortedEvents = events.sort(function(a, b) {
+        const sortedEvents = events.sort(function (a, b) {
             var dateA = new Date(a.date), dateB = new Date(b.date);
             return dateA - dateB;
         })
@@ -158,9 +158,9 @@ function Events() {
 
     const getButtonClass = (type) => {
         if (sortType === type) {
-            return [classes.button, classes.disabledButton]
+            return classes.button + ' ' + classes.disabledButton
         }
-        return [classes.button]
+        return classes.button
     }
 
     return (
@@ -168,17 +168,12 @@ function Events() {
             <Paper className={classes.paper}>
                 <div className={classes.sorting}>
                     <CustomLink to={'/event/new/'} className={classes.root}>
-                        <Button  variant="contained">
+                        <Button variant="contained">
                             <Typography gutterBottom variant="subtitle1">
                                 new event
                             </Typography>
                         </Button>
                     </CustomLink>
-                    <IconButton className={classes.button} aria-label="calendar"
-                                onClick={(e) => sortByDate()}>
-                    <Button className={classes.root} variant="contained">
-                        <CustomLink to={'/event/new/'}>new event</CustomLink>
-                    </Button>
                     <IconButton className={getButtonClass('date')} aria-label="calendar"
                                 onClick={() => sortByDate()}>
                         <CalendarIcon/>
