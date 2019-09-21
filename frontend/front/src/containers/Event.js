@@ -58,6 +58,7 @@ function Event(props) {
   const [input, setInput] = useState({})
   const [participants, setParticipants] = useState(null)
   const [invalidEvent, setInvalidEvent] = useState(false)
+  const [userRef, setUserRef] = useState('')
 
   const eventId = props.match.params.eventId
 
@@ -172,6 +173,7 @@ function Event(props) {
         <div>
           <Paper className={classes.paper} style={{ flex: 1 }}>
             <TextField
+              inputRef={(ref) => setUserRef(ref)}
               id="standard-full-width"
               name="username"
               label="Add username"
@@ -193,8 +195,10 @@ function Event(props) {
                   () => {
                     getEventParticipants(event.id, response => {
                       setParticipants(response.data)
+                      userRef.value = ''
                     })
                   }
+                  //DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
                 )
               }}
             >
