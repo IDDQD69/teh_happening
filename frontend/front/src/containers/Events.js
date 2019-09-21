@@ -129,7 +129,6 @@ function Events() {
             if(a.created_by > b.created_by) { return 1; }
             return 0;
         })
-        sortedEvents.pop(sortedEvents.indexOf(0))
         setEvents(sortedEvents)
         setSortType("user")
     }
