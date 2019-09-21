@@ -10,7 +10,9 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import {getEvents, deleteEvent} from 'api'
+import {getOwnEvents, deleteEvent} from 'api'
+
+import {getLogin} from "../storage";
 import CustomLink from "../components/CustomLink";
 import Link from "@material-ui/core/Link";
 
@@ -44,7 +46,7 @@ function Events() {
 
 
     useEffect(() => {
-        getEvents(response => {
+        getOwnEvents(getLogin(), response => {
             setEvents(response.data)
         })
     }, [])
@@ -56,7 +58,7 @@ function Events() {
             const index = events.indexOf(e)
             //delete events[index]
             deleteEvent(event, response => {
-                getEvents(response => {
+                getOwnEvents(getLogin(), response => {
                     setEvents(response.data)
                 })
             })

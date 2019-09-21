@@ -14,6 +14,15 @@ export const getEvents = (callback) => {
             })
 }
 
+export const getOwnEvents = (login, callback) => {
+    getAxios()
+        .post('/event/own/', login)
+        .then(
+            response => {
+                callback(response)
+            })
+}
+
 export const createEvent = (data, callback, error) => {
     getAxios()
         .post('/event/', data)
@@ -23,7 +32,7 @@ export const createEvent = (data, callback, error) => {
             })
         .catch(err => {
             if (error) {
-                error(err)
+                error(err.response || err)
             }
         })
 }
