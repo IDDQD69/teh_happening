@@ -87,7 +87,7 @@ function Events() {
                 <img
                   className={classes.img}
                   alt="complex"
-                  src="https://picsum.photos/200"
+                  src={event.url=='' ? `https://source.unsplash.com/random?sig=123${Math.random()*100}` : event.url}
                 />
               </ButtonBase>
             </CustomLink>
@@ -104,7 +104,7 @@ function Events() {
                   {event.created_by}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  lisätietoja
+                  More info...
                 </Typography>
               </Grid>
               <Grid item>

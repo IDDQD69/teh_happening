@@ -21,6 +21,7 @@ class EventViewSet(viewsets.ModelViewSet, ListAPIView):
             name=serializer.data['name'],
             created_by=serializer.data['login']['username'],
             date=serializer.data['date'],
+            url=serializer.data['url'],
         )
         Participant.objects.create(
             event=event,

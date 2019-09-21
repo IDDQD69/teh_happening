@@ -24,3 +24,7 @@ class CreateEventSerializer(serializers.Serializer):
         min_length=5
     )
     date = serializers.DateField(required=False)
+    url = serializers.CharField(max_length=120,
+                                required=False,
+                                allow_blank=True,
+                                default='')

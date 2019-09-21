@@ -95,7 +95,6 @@ function CreateEvent(props) {
       </Paper>
       <Paper className={classes.paper}>
         {field('name')}
-
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -109,7 +108,7 @@ function CreateEvent(props) {
             'aria-label': 'change date',
           }}
         />
-
+          {field('url')}
         <Button
           onClick={() => {
             create()

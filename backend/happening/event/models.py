@@ -30,6 +30,13 @@ class Event(models.Model):
 
     date = models.DateField(null=True, blank=True)
 
+    url = models.CharField(
+        max_length=120,
+        null=True,
+        blank=True,
+        default=''
+    )
+
     def __str__(self):
         return '%d - %s' % (self.id, self.name)
 
