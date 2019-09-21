@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
         maxWidth: '100%',
         maxHeight: '100%',
     },
+    sorting: {
+        display: "flex",
+        justifyContent: "space-between"
+    }
 }));
 
 
@@ -46,7 +50,6 @@ function Events() {
     const classes = useStyles();
     const [events, setEvents] = useState([])
     const [sortType, setSortType] = useState("")
-
 
 
     useEffect(() => {
@@ -71,7 +74,6 @@ function Events() {
 
         return (
             <Paper key={event.id} className={classes.paper}>
-                {console.log(event)}
                 <Grid container spacing={2}>
                     <Grid item>
                         <CustomLink to={'/events/' + event.id}>
@@ -117,7 +119,7 @@ function Events() {
     }
 
     function sortByDate() {
-        const sortedEvents = events.sort(function(a, b) {
+        const sortedEvents = events.sort(function (a, b) {
             var dateA = new Date(a.date), dateB = new Date(b.date);
             return dateA - dateB;
         })
@@ -126,9 +128,13 @@ function Events() {
     }
 
     function sortByUser() {
-        const sortedEvents = events.sort(function(a, b){
-            if(a.created_by < b.created_by) { return -1; }
-            if(a.created_by > b.created_by) { return 1; }
+        const sortedEvents = events.sort(function (a, b) {
+            if (a.created_by < b.created_by) {
+                return -1;
+            }
+            if (a.created_by > b.created_by) {
+                return 1;
+            }
             return 0;
         })
         setEvents(sortedEvents)
@@ -138,17 +144,19 @@ function Events() {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Button className={classes.root}>
-                    <CustomLink to={'/event/new/'}>new event</CustomLink>
-                </Button>
-                <IconButton className={classes.button} aria-label="calendar"
-                            onClick={(e) => sortByDate()}>
-                    <CalendarIcon/>
-                </IconButton>
-                <IconButton className={classes.button} aria-label="user"
-                            onClick={(e) => sortByUser()}>
-                    <UserIcon/>
-                </IconButton>
+                <div className={classes.sorting}>
+                    <Button className={classes.root} variant="contained">
+                        <CustomLink to={'/event/new/'}>new event</CustomLink>
+                    </Button>
+                    <IconButton className={classes.button} aria-label="calendar"
+                                onClick={(e) => sortByDate()}>
+                        <CalendarIcon/>
+                    </IconButton>
+                    <IconButton className={classes.button} aria-label="user"
+                                onClick={(e) => sortByUser()}>
+                        <UserIcon/>
+                    </IconButton>
+                </div>
             </Paper>
             {events.map(event => eventItem(event))}
         </div>
