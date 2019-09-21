@@ -58,7 +58,8 @@ const useStyles = makeStyles(theme => ({
     color: 'red',
   },
   subComment: {
-    marginLeft: 20,
+    margin: 10,
+    padding: 20,
     background: '#f1f1f1'
   }
 }))
@@ -271,13 +272,11 @@ function Event(props) {
               <div>{comment.comment}</div>
 
               {comment.subcomments && comment.subcomments.map(sc => {
-                return <div key={sc.id} className={classes.subcomment}>
-                  ----
-                  <div> > {moment(sc.datetime).format("YY-MM-DD HH:mm")}</div>
-                  <div> > {sc.username}</div>
-                  <div> > {sc.comment}</div>
-                  ----
-                </div>
+                return <Paper key={sc.id} className={classes.subComment}>
+                  <div>{moment(sc.datetime).format("YY-MM-DD HH:mm")}</div>
+                  <div>{sc.username}</div>
+                  <div>{sc.comment}</div>
+                </Paper>
               })}
               <div onClick={() => {
 
