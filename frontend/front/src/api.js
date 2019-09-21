@@ -35,35 +35,35 @@ export const createEvent = (data, callback, error) => {
 }
 
 export const sendChat = (data, callback) => {
-    getAxios()
-        .post('/chat/', data)
-        .then(response => {
-            callback(response)
-        })
+  getAxios()
+    .post('/chat/', data)
+    .then(response => {
+      callback(response)
+    })
 }
 
 export const getChats = (data, callback) => {
-    getAxios()
-        .post('/chat/get/', data)
-        .then(response => {
-            callback(response)
-        })
+  getAxios()
+    .post('/chat/get/', data)
+    .then(response => {
+      callback(response)
+    })
 }
 
 export const sendComment = (data, callback) => {
-    getAxios()
-        .post('/comment/', data)
-        .then(response => {
-            callback(response)
-        })
+  getAxios()
+    .post('/comment/', data)
+    .then(response => {
+      callback(response)
+    })
 }
 
 export const getComments = (data, callback) => {
-    getAxios()
-        .post('/comment/get/', data)
-        .then(response => {
-            callback(response)
-        })
+  getAxios()
+    .post('/comment/get/', data)
+    .then(response => {
+      callback(response)
+    })
 }
 
 export const getEvent = (eventId, callback, error) => {

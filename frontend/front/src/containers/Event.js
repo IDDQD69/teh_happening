@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 
 import isEmpty from 'lodash/isEmpty'
 
-import {getLogin} from "storage";
+import { getLogin } from 'storage'
 
 import {
   getEvent,
@@ -16,7 +16,7 @@ import {
   getChats,
   sendChat,
   getComments,
-  sendComment
+  sendComment,
 } from 'api'
 import CustomLink from 'components/CustomLink'
 import IconButton from '@material-ui/core/IconButton'
@@ -28,7 +28,7 @@ import HelpIcon from '@material-ui/icons/Help'
 import DeleteIcon from '@material-ui/icons/Delete'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import moment from "moment";
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,8 +60,8 @@ const useStyles = makeStyles(theme => ({
   subComment: {
     margin: 10,
     padding: 20,
-    background: '#f1f1f1'
-  }
+    background: '#f1f1f1',
+  },
 }))
 
 function Event(props) {
@@ -90,7 +90,6 @@ function Event(props) {
     )
 
     setLogin(getLogin())
-
   }, [])
 
   useEffect(() => {
@@ -99,11 +98,11 @@ function Event(props) {
         setParticipants(response.data)
       })
 
-      getChats({login: login, id: event.id}, response => {
+      getChats({ login: login, id: event.id }, response => {
         setMessages(response.data)
       })
 
-      getComments({login: login, id: event.id}, response => {
+      getComments({ login: login, id: event.id }, response => {
         setComments(response.data)
       })
     }
@@ -118,7 +117,7 @@ function Event(props) {
 
     const chatInterval = setInterval(() => {
       if (event) {
-        getChats({login: login, id: event.id}, response => {
+        getChats({ login: login, id: event.id }, response => {
           setMessages(response.data)
         })
       }
@@ -126,7 +125,7 @@ function Event(props) {
 
     const commentInterval = setInterval(() => {
       if (event) {
-        getComments({login: login, id: event.id}, response => {
+        getComments({ login: login, id: event.id }, response => {
           setComments(response.data)
         })
       }
@@ -218,7 +217,7 @@ function Event(props) {
         <div>
           <Paper className={classes.paper} style={{ flex: 1 }}>
             <TextField
-              inputRef={(ref) => setUserRef(ref)}
+              inputRef={ref => setUserRef(ref)}
               id="standard-full-width"
               name="username"
               label="Add username"
@@ -241,10 +240,10 @@ function Event(props) {
                     getEventParticipants(event.id, response => {
                       setParticipants(response.data)
                       userRef.value = ''
-                        setInput(inputs => ({
-                            ...inputs,
-                            [userRef.name]: userRef.value,
-                        }))
+                      setInput(inputs => ({
+                        ...inputs,
+                        [userRef.name]: userRef.value,
+                      }))
                     })
                   }
                 )
@@ -263,136 +262,149 @@ function Event(props) {
   )
 
   const eventComments = (
-      <Paper className={classes.paper} style={{ flex: 1 }}>
-        <div>
-          {comments && comments.map(comment => {
-            return <div key={comment.id}>
-              <div>{moment(comment.datetime).format("YY-MM-DD HH:mm")}</div>
-              <div>{comment.username}</div>
-              <div>{comment.comment}</div>
+    <Paper className={classes.paper} style={{ flex: 1 }}>
+      <div>
+        {comments &&
+          comments.map(comment => {
+            return (
+              <div key={comment.id}>
+                <div>{moment(comment.datetime).format('YY-MM-DD HH:mm')}</div>
+                <div>{comment.username}</div>
+                <div>{comment.comment}</div>
 
-              {comment.subcomments && comment.subcomments.map(sc => {
-                return <Paper key={sc.id} className={classes.subComment}>
-                  <div>{moment(sc.datetime).format("YY-MM-DD HH:mm")}</div>
-                  <div>{sc.username}</div>
-                  <div>{sc.comment}</div>
-                </Paper>
-              })}
-              <div onClick={() => {
-
-              }}>
-                <TextField
+                {comment.subcomments &&
+                  comment.subcomments.map(sc => {
+                    return (
+                      <Paper key={sc.id} className={classes.subComment}>
+                        <div>
+                          {moment(sc.datetime).format('YY-MM-DD HH:mm')}
+                        </div>
+                        <div>{sc.username}</div>
+                        <div>{sc.comment}</div>
+                      </Paper>
+                    )
+                  })}
+                <div onClick={() => {}}>
+                  <TextField
                     id="reply-box"
                     label="reply"
                     margin="dense"
                     fullWidth
-                    onKeyPress={(ev) => {
-                        if (ev.key === 'Enter') {
-                            sendComment(
-                                {
-                                    login: login,
-                                    id: event.id,
-                                    target: comment.id,
-                                    comment: ev.target.value
-                                },
-                                () => {
-                                    getComments({login: login, id: event.id}, response => {
-                                        setComments(response.data)
-                                    })
-                                }
+                    onKeyPress={ev => {
+                      if (ev.key === 'Enter') {
+                        sendComment(
+                          {
+                            login: login,
+                            id: event.id,
+                            target: comment.id,
+                            comment: ev.target.value,
+                          },
+                          () => {
+                            getComments(
+                              { login: login, id: event.id },
+                              response => {
+                                setComments(response.data)
+                              }
                             )
-                            ev.target.value = ''
-                        }
+                          }
+                        )
+                        ev.target.value = ''
+                      }
                     }}
-                />
-
+                  />
+                </div>
               </div>
-            </div>
+            )
           })}
-        </div>
-      </Paper>
+      </div>
+    </Paper>
   )
 
   const chatMessages = (
-      <Paper className={classes.paper} style={{ flex: 1 }}>
+    <Paper className={classes.paper} style={{ flex: 1 }}>
       <div>
-        {messages && messages.map(message => {
-          return <div key={message.id}>
-            <span>{moment(message.datetime).format("YY-MM-DD HH:mm")} >> </span>
-            <span>{message.username}: </span>
-            {message.message}
-          </div>
-        })}
+        {messages &&
+          messages.map(message => {
+            return (
+              <div key={message.id}>
+                <span>
+                  {moment(message.datetime).format('YY-MM-DD HH:mm')} >>{' '}
+                </span>
+                <span>{message.username}: </span>
+                {message.message}
+              </div>
+            )
+          })}
       </div>
-      </Paper>
+    </Paper>
   )
 
   const commentBox = (
-      <Paper className={classes.paper} style={{ flex: 1 }}>
-        <TextField
-            id="standard-full-width"
-            name="comment"
-            style={{ margin: 8 }}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-        />
-        <Button
-            onClick={() => {
-              sendComment(
-                  {
-                    login: login,
-                    id: event.id,
-                    comment: input['comment']
-                  },
-                  () => {
-                      getComments({login: login, id: event.id}, response => {
-                          setComments(response.data)
-                      })
-                  }
-              )
-            }}
-        >
-          Comment
-        </Button>
-      </Paper>
+    <Paper className={classes.paper} style={{ flex: 1 }}>
+      <TextField
+        id="standard-full-width"
+        name="comment"
+        style={{ margin: 8 }}
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleInputChange}
+      />
+      <Button
+        onClick={() => {
+          sendComment(
+            {
+              login: login,
+              id: event.id,
+              comment: input['comment'],
+            },
+            () => {
+              getComments({ login: login, id: event.id }, response => {
+                setComments(response.data)
+              })
+            }
+          )
+        }}
+      >
+        Comment
+      </Button>
+    </Paper>
   )
 
   const chatBox = (
-      <Paper className={classes.paper} style={{ flex: 1 }}>
-        <TextField
-            id="standard-full-width"
-            name="message"
-            style={{ margin: 8 }}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-        />
-        <Button
-            onClick={() => {
-              sendChat(
-                  {
-                    login: login,
-                    id: event.id,
-                    message: input['message']
-                  },
-                  () => {
-                    getEventParticipants(event.id, response => {
-                      setParticipants(response.data)
-                    })
-                  }
-              )
-            }}
-        >
-          chat
-        </Button>
-      </Paper>
+    <Paper className={classes.paper} style={{ flex: 1 }}>
+      <TextField
+        id="standard-full-width"
+        name="message"
+        style={{ margin: 8 }}
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleInputChange}
+      />
+      <Button
+        onClick={() => {
+          sendChat(
+            {
+              login: login,
+              id: event.id,
+              message: input['message'],
+            },
+            () => {
+              getEventParticipants(event.id, response => {
+                setParticipants(response.data)
+              })
+            }
+          )
+        }}
+      >
+        chat
+      </Button>
+    </Paper>
   )
 
   return (

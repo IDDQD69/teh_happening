@@ -87,7 +87,12 @@ function Events() {
                 <img
                   className={classes.img}
                   alt="complex"
-                  src={event.url=='' ? `https://source.unsplash.com/random?sig=123${Math.random()*100}` : event.url}
+                  src={
+                    event.url == ''
+                      ? `https://source.unsplash.com/random?sig=123${Math.random() *
+                          100}`
+                      : event.url
+                  }
                 />
               </ButtonBase>
             </CustomLink>

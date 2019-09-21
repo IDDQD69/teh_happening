@@ -113,7 +113,9 @@ function CreateEvent(props) {
       </Paper>
       <Paper className={classes.paper}>
         <Grid container direction="column" spacing={2}>
-          <Grid item xs>{field('name')}</Grid>
+          <Grid item xs>
+            {field('name')}
+          </Grid>
           <Grid item xs>
             <KeyboardDatePicker
               disableToolbar
@@ -130,7 +132,9 @@ function CreateEvent(props) {
               }}
             />
           </Grid>
-            <Grid item xs>{field('url')}</Grid>
+          <Grid item xs>
+            {field('url')}
+          </Grid>
           <Grid item xs>
             <Button
               onClick={() => {
