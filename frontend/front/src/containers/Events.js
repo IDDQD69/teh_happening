@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     sorting: {
         display: "flex",
         justifyContent: "space-between"
+    },
+    disabledButton: {
+        color: 'green'
     }
 }));
 
@@ -131,7 +134,7 @@ function Events() {
     }
 
     function sortByDate() {
-        const sortedEvents = events.sort(function (a, b) {
+        const sortedEvents = events.sort(function(a, b) {
             var dateA = new Date(a.date), dateB = new Date(b.date);
             return dateA - dateB;
         })
@@ -153,6 +156,13 @@ function Events() {
         setSortType("user")
     }
 
+    const getButtonClass = (type) => {
+        if (sortType === type) {
+            return [classes.button, classes.disabledButton]
+        }
+        return [classes.button]
+    }
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
@@ -166,10 +176,15 @@ function Events() {
                     </CustomLink>
                     <IconButton className={classes.button} aria-label="calendar"
                                 onClick={(e) => sortByDate()}>
+                    <Button className={classes.root} variant="contained">
+                        <CustomLink to={'/event/new/'}>new event</CustomLink>
+                    </Button>
+                    <IconButton className={getButtonClass('date')} aria-label="calendar"
+                                onClick={() => sortByDate()}>
                         <CalendarIcon/>
                     </IconButton>
-                    <IconButton className={classes.button} aria-label="user"
-                                onClick={(e) => sortByUser()}>
+                    <IconButton className={getButtonClass('user')} aria-label="user"
+                                onClick={() => sortByUser()}>
                         <UserIcon/>
                     </IconButton>
                 </div>
