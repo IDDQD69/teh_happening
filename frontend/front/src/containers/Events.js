@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import CalendarIcon from '@material-ui/icons/Event'
 import UserIcon from '@material-ui/icons/Person'
 
-import { deleteEvent, getOwnEvents } from 'api'
+import { deleteEvent, getOwnEvents, validate } from 'api'
 
 import { getLogin } from '../storage'
 import CustomLink from '../components/CustomLink'
