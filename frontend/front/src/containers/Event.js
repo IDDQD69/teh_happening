@@ -165,7 +165,6 @@ function Event(props) {
       ...inputs,
       [event.target.name]: event.target.value,
     }))
-    console.log(event.target.value)
   }
 
   const eventItem = (
@@ -203,7 +202,6 @@ function Event(props) {
                         }))
                     })
                   }
-                  //DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
                 )
               }}
             >
