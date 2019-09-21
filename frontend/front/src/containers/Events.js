@@ -9,6 +9,8 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CalendarIcon from '@material-ui/icons/Event'
+import UserIcon from '@material-ui/icons/Person'
 
 import {getEvents, deleteEvent} from 'api'
 import CustomLink from "../components/CustomLink";
@@ -41,6 +43,8 @@ const useStyles = makeStyles(theme => ({
 function Events() {
     const classes = useStyles();
     const [events, setEvents] = useState([])
+    const [sortType, setSortType] = useState("")
+
 
 
     useEffect(() => {
@@ -110,12 +114,40 @@ function Events() {
 
     }
 
+    function sortByDate() {
+        const sortedEvents = events.sort(function(a, b) {
+            var dateA = new Date(a.date), dateB = new Date(b.date);
+            return dateA - dateB;
+        })
+        setEvents(sortedEvents)
+        setSortType("date")
+    }
+
+    function sortByUser() {
+        const sortedEvents = events.sort(function(a, b){
+            if(a.created_by < b.created_by) { return -1; }
+            if(a.created_by > b.created_by) { return 1; }
+            return 0;
+        })
+        sortedEvents.pop(sortedEvents.indexOf(0))
+        setEvents(sortedEvents)
+        setSortType("user")
+    }
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Button>
+                <Button className={classes.root}>
                     <CustomLink to={'/event/new/'}>new event</CustomLink>
                 </Button>
+                <IconButton className={classes.button} aria-label="calendar"
+                            onClick={(e) => sortByDate()}>
+                    <CalendarIcon/>
+                </IconButton>
+                <IconButton className={classes.button} aria-label="user"
+                            onClick={(e) => sortByUser()}>
+                    <UserIcon/>
+                </IconButton>
             </Paper>
             {events.map(event => eventItem(event))}
         </div>
