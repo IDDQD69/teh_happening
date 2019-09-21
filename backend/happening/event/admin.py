@@ -4,10 +4,10 @@ from .models import Event, Participant
 
 
 @admin.register(Event)
-class EventModel(admin.ModelAdmin):
+class EventAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Participant)
-class ParticipantModel(admin.ModelAdmin):
+class ParticipantAdmin(admin.ModelAdmin):
     pass

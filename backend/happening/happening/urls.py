@@ -17,12 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+from chat.views import ChatViewSet
+from comment.views import CommentViewSet
 from event.views import EventViewSet, ParticipantViewSet
 from telegram.views import TelegramViewSet
 
 router = routers.DefaultRouter()
 router.register(r'event', EventViewSet)
 router.register(r'participant', ParticipantViewSet)
+router.register(r'comment', CommentViewSet)
+router.register(r'chat', ChatViewSet)
 router.register(r'telegram', TelegramViewSet, basename='telegram')
 
 urlpatterns = [
