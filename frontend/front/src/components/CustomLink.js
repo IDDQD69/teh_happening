@@ -16,7 +16,7 @@ const StyledLink = styled(Link)`
 `
 
 function CustomLink(props) {
-    return <StyledLink {...props}>{props.children}</StyledLink>
+  return <StyledLink {...props}>{props.children}</StyledLink>
 }
 
 export default CustomLink

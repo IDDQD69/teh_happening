@@ -1,126 +1,125 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
-import {getLogin} from "storage"
+import { getLogin } from 'storage'
 
-import TextField from '@material-ui/core/TextField';
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button"
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 import CustomLink from 'components/CustomLink'
 
+import { KeyboardDatePicker } from '@material-ui/pickers'
 
-import {
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
-
-import {createEvent} from "api";
-
+import { createEvent } from 'api'
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-        margin: 'auto',
-        marginTop: 20,
-        maxWidth: 500,
-    },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
-}));
-
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: 'auto',
+    marginTop: 20,
+    maxWidth: 500,
+  },
+  image: {
+    width: 128,
+    height: 128,
+  },
+  img: {
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
+}))
 
 function CreateEvent(props) {
-    const classes = useStyles();
-    const [inputs, setInputs] = useState({})
+  const classes = useStyles()
+  const [inputs, setInputs] = useState({})
 
-    function handleDateChange(date) {
-        setInputs(inputs => ({
-            ...inputs,
-            'date': date
-        }))
-    }
+  function handleDateChange(date) {
+    setInputs(inputs => ({
+      ...inputs,
+      date: date,
+    }))
+  }
 
+  useEffect(() => {}, [])
 
-    useEffect(() => {
-    }, [])
+  const create = () => {
+    createEvent(
+      {
+        login: {
+          ...getLogin(),
+        },
+        ...inputs,
+      },
+      response => {
+        props.history.push('/events/' + response.data.id + '/')
+      }
+    )
+  }
 
-    const create = () => {
-        createEvent({
-                login: {
-                    ...getLogin()
-                },
-                ...inputs
-            },
-            response => {
-                props.history.push('/events/' + response.data.id + '/')
-            }
-        )
-    }
+  const handleInputChange = event => {
+    event.persist()
+    setInputs(inputs => ({
+      ...inputs,
+      [event.target.name]: event.target.value,
+    }))
+  }
 
-    const handleInputChange = event => {
-        event.persist()
-        setInputs(inputs => ({
-            ...inputs,
-            [event.target.name]: event.target.value,
-        }))
-    }
-
-    const field = (name, type = "text") => {
-        return <TextField
-            id="standard-full-width"
-            name={name}
-            label={name}
-            type={type}
-            style={{margin: 8}}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-                shrink: true,
-            }}
-            onChange={handleInputChange}
-        />
-    }
-
-
+  const field = (name, type = 'text') => {
     return (
-        <div className={classes.root}>
-            <Paper className={classes.paper}>
-                <CustomLink to={'/events/'}>. . </CustomLink>
-            </Paper>
-            <Paper className={classes.paper}>
-                {field('name')}
+      <TextField
+        id="standard-full-width"
+        name={name}
+        label={name}
+        type={type}
+        style={{ margin: 8 }}
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleInputChange}
+      />
+    )
+  }
 
-                <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="YYYY-MM-DD"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    value={inputs['date']}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                    }}
-                />
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <CustomLink to={'/events/'}>. . </CustomLink>
+      </Paper>
+      <Paper className={classes.paper}>
+        {field('name')}
 
-                <Button onClick={() => {
-                    create()
-                }}>create</Button>
-            </Paper>
-        </div>
-    );
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="YYYY-MM-DD"
+          margin="normal"
+          id="date-picker-inline"
+          label="Date picker inline"
+          value={inputs['date']}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+
+        <Button
+          onClick={() => {
+            create()
+          }}
+        >
+          create
+        </Button>
+      </Paper>
+    </div>
+  )
 }
 
 export default CreateEvent
