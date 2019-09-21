@@ -58,7 +58,7 @@ function Event(props) {
   const [input, setInput] = useState({})
   const [participants, setParticipants] = useState(null)
   const [invalidEvent, setInvalidEvent] = useState(false)
-  const [userRef, setUserRef] = useState('')
+  const [userRef, setUserRef] = useState(null)
 
   const eventId = props.match.params.eventId
 
@@ -165,6 +165,7 @@ function Event(props) {
       ...inputs,
       [event.target.name]: event.target.value,
     }))
+    console.log(event.target.value)
   }
 
   const eventItem = (
@@ -196,6 +197,10 @@ function Event(props) {
                     getEventParticipants(event.id, response => {
                       setParticipants(response.data)
                       userRef.value = ''
+                        setInput(inputs => ({
+                            ...inputs,
+                            [userRef.name]: userRef.value,
+                        }))
                     })
                   }
                   //DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
