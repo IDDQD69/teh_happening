@@ -4,6 +4,7 @@ from rest_framework.generics import ListAPIView, get_object_or_404, CreateAPIVie
 from rest_framework.response import Response
 
 from event.serializers import EventSerializer, ParticipantSerializer, CreateEventSerializer
+from telegram.serializers import ValidateSerializer
 from .models import Event, Participant
 
 
@@ -27,6 +28,14 @@ class EventViewSet(viewsets.ModelViewSet, ListAPIView):
             status=Participant.STATUS_YES
         )
         return Response(EventSerializer(event).data)
+
+    @action(detail=False, methods=['post'])
+    def own(self, request):
+        serializer = ValidateSerializer(data=request.data, many=False)
+        serializer.is_valid(raise_exception=True)
+        queryset = Event.objects.filter(participants__username=serializer.data['username'])
+        return_serializer = EventSerializer(queryset, many=True)
+        return Response(return_serializer.data)
 
     @action(detail=True, methods=['get'])
     def participants(self, request, pk=None):

@@ -41,6 +41,7 @@ class Participant(models.Model):
         blank=False,
         null=False,
         on_delete=models.CASCADE,
+        related_name='participants'
     )
 
     username = models.CharField(
