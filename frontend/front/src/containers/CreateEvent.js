@@ -80,8 +80,8 @@ function CreateEvent(props) {
   }
 
   const getErrorText = name => {
-    if (errors && errors['name']) {
-      return errors['name'][0]
+    if (errors && errors[name]) {
+      return errors[name][0]
     }
     return ''
   }
