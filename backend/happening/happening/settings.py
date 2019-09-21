@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'event',
     'telegram',
+    'comment',
+    'chat',
 ]
 
 MIDDLEWARE = [

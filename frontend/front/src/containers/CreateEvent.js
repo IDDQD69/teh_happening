@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { getLogin } from 'storage'
 
+import moment from 'moment'
+
+import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
@@ -18,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
     margin: 'auto',
     marginTop: 20,
     maxWidth: 500,
@@ -37,7 +40,10 @@ const useStyles = makeStyles(theme => ({
 
 function CreateEvent(props) {
   const classes = useStyles()
-  const [inputs, setInputs] = useState({})
+  const [errors, setErrors] = useState({})
+  const [inputs, setInputs] = useState({
+    date: moment(),
+  })
 
   function handleDateChange(date) {
     setInputs(inputs => ({
@@ -58,6 +64,9 @@ function CreateEvent(props) {
       },
       response => {
         props.history.push('/events/' + response.data.id + '/')
+      },
+      error => {
+        setErrors(error.data)
       }
     )
   }
@@ -70,6 +79,13 @@ function CreateEvent(props) {
     }))
   }
 
+  const getErrorText = name => {
+    if (errors && errors['name']) {
+      return errors['name'][0]
+    }
+    return ''
+  }
+
   const field = (name, type = 'text') => {
     return (
       <TextField
@@ -78,6 +94,8 @@ function CreateEvent(props) {
         label={name}
         type={type}
         style={{ margin: 8 }}
+        helperText={getErrorText(name)}
+        error={getErrorText(name) !== ''}
         fullWidth
         margin="normal"
         InputLabelProps={{
@@ -94,28 +112,35 @@ function CreateEvent(props) {
         <CustomLink to={'/events/'}>. . </CustomLink>
       </Paper>
       <Paper className={classes.paper}>
-        {field('name')}
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="YYYY-MM-DD"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={inputs['date']}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-          {field('url')}
-        <Button
-          onClick={() => {
-            create()
-          }}
-        >
-          create
-        </Button>
+        <Grid container direction="column" spacing={2}>
+          <Grid item xs>{field('name')}</Grid>
+          <Grid item xs>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="YYYY-MM-DD"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date picker inline"
+              fullWidth
+              value={inputs['date']}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </Grid>
+            <Grid item xs>{field('url')}</Grid>
+          <Grid item xs>
+            <Button
+              onClick={() => {
+                create()
+              }}
+            >
+              create
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </div>
   )
