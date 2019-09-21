@@ -134,17 +134,15 @@ function Events() {
   }
 
   function sortByDate() {
-    const sortedEvents = events.sort(function(a, b) {
+    return events.sort(function(a, b) {
       var dateA = new Date(a.date),
         dateB = new Date(b.date)
       return dateA - dateB
     })
-    setEvents(sortedEvents)
-    setSortType('date')
   }
 
   function sortByUser() {
-    const sortedEvents = events.sort(function(a, b) {
+    return events.sort(function(a, b) {
       if (a.created_by < b.created_by) {
         return -1
       }
@@ -153,8 +151,6 @@ function Events() {
       }
       return 0
     })
-    setEvents(sortedEvents)
-    setSortType('user')
   }
 
   const getButtonClass = type => {
@@ -162,6 +158,15 @@ function Events() {
       return classes.button + ' ' + classes.disabledButton
     }
     return classes.button
+  }
+
+  const getEvents = () => {
+    if (sortType === 'date') {
+      return sortByDate()
+    } else if (sortType === 'user') {
+      return sortByUser()
+    }
+    return events
   }
 
   return (
@@ -178,20 +183,20 @@ function Events() {
           <IconButton
             className={getButtonClass('date')}
             aria-label="calendar"
-            onClick={() => sortByDate()}
+            onClick={() => setSortType('date')}
           >
             <CalendarIcon />
           </IconButton>
           <IconButton
             className={getButtonClass('user')}
             aria-label="user"
-            onClick={() => sortByUser()}
+            onClick={() => setSortType('user')}
           >
             <UserIcon />
           </IconButton>
         </div>
       </Paper>
-      {events.map(event => eventItem(event))}
+      {getEvents().map(event => eventItem(event))}
     </div>
   )
 }
