@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from event.views import EventViewSet
+from event.views import EventViewSet, ParticipantViewSet
 from telegram.views import TelegramViewSet
 
 router = routers.DefaultRouter()
 router.register(r'event', EventViewSet)
+router.register(r'participant', ParticipantViewSet)
 router.register(r'telegram', TelegramViewSet, basename='telegram')
 
 urlpatterns = [

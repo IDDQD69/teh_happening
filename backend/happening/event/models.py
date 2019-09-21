@@ -66,5 +66,8 @@ class Participant(models.Model):
         default=STATUS_PENDING
     )
 
+    class Meta:
+        unique_together = ('event', 'username',)
+
     def __str__(self):
         return '%d - %s - %s' % (self.id, self.username, self.event)

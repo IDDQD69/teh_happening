@@ -60,6 +60,37 @@ export const getEventParticipants = (eventId, callback) => {
             })
 }
 
+export const setParticipantStatus = (participant, status, callback) => {
+    getAxios()
+        .post('/participant/set_status/', {
+            id: participant.id,
+            status: status
+        })
+        .then(
+            response => {
+                if (callback) callback(response)
+            })
+}
+
+export const deleteParticipant = (participant, callback) => {
+    getAxios()
+        .delete('/participant/' + participant.id + '/')
+        .then(
+            response => {
+                if (callback) callback(response)
+            })
+}
+
+export const createParticipant = (data, callback) => {
+    getAxios()
+        .post('/participant/', data)
+        .then(
+            response => {
+                if (callback) callback(response)
+            })
+}
+
+
 export const validate = (login, callback) => {
     getAxios()
         .post('/telegram/validate/', login)

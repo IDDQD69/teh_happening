@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView, get_object_or_404, CreateAPIView
+from rest_framework.generics import ListAPIView, get_object_or_404, CreateAPIView, DestroyAPIView
 from rest_framework.response import Response
 
 from event.serializers import EventSerializer, ParticipantSerializer, CreateEventSerializer
@@ -43,3 +43,16 @@ class EventViewSet(viewsets.ModelViewSet, ListAPIView):
         queryset = Participant.objects.filter(event=event)
         serializer = ParticipantSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ParticipantViewSet(viewsets.ModelViewSet, CreateAPIView, DestroyAPIView):
+    model = Participant
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer
+
+    @action(detail=False, methods=['post'])
+    def set_status(self, request):
+        participant = get_object_or_404(Participant, id=request.data['id'])
+        participant.status = request.data['status']
+        participant.save()
+        return Response()

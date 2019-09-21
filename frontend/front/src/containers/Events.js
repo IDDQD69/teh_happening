@@ -12,11 +12,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CalendarIcon from '@material-ui/icons/Event'
 import UserIcon from '@material-ui/icons/Person'
 
-import {getOwnEvents, deleteEvent} from 'api'
+import {deleteEvent, getOwnEvents} from 'api'
 
 import {getLogin} from "../storage";
 import CustomLink from "../components/CustomLink";
-import Link from "@material-ui/core/Link";
 
 
 const useStyles = makeStyles(theme => ({
@@ -56,6 +55,19 @@ function Events() {
         getOwnEvents(getLogin(), response => {
             setEvents(response.data)
         })
+
+
+        const interval = setInterval(() => {
+            getOwnEvents(getLogin(), response => {
+                setEvents(response.data)
+            })
+
+        }, 2000);
+
+        return () => {
+            clearInterval(interval)
+        }
+
     }, [])
 
 
@@ -145,9 +157,13 @@ function Events() {
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <div className={classes.sorting}>
-                    <Button className={classes.root} variant="contained">
-                        <CustomLink to={'/event/new/'}>new event</CustomLink>
-                    </Button>
+                    <CustomLink to={'/event/new/'} className={classes.root}>
+                        <Button  variant="contained">
+                            <Typography gutterBottom variant="subtitle1">
+                                new event
+                            </Typography>
+                        </Button>
+                    </CustomLink>
                     <IconButton className={classes.button} aria-label="calendar"
                                 onClick={(e) => sortByDate()}>
                         <CalendarIcon/>
